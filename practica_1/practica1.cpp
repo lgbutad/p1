@@ -5,35 +5,9 @@
 #include "windows.h"
 #include <list>
 
-const int  LEVEL_WIDTH       = 30;
-const int  ENEMY_CHANCE      = 5;
-const int  BONUS_CHANCE      = 100;
-const int  BONUS_SCORE       = 100;
-const int  INIT_PLAYER_LIFES = 3;
-const char CHAR_FLOOR        = '_';
-const char CHAR_PLAYER       = '@';
-const char CHAR_ENEMY        = 'g';
-const char CHAR_BONUS        = '$';
-const char CHAR_SHOOT_LEFT   = '<';
-const char CHAR_SHOOT_RIGHT  = '>';
-const char KEY_ESC           = '27';
-const char KEY_LEFT          = 'a';
-const char KEY_RIGHT         = 'd';
-const char KEY_SHOOT_LEFT    = 'k';
-const char KEY_SHOOT_RIGHT   = 'l';
-
-struct Bullet {
-	int pos = -1;
-	char symbol = 0;
-};
-
 std::list<int> enemy_positions;
 std::list<Bullet> bullets;
 
-int  player_pos   = LEVEL_WIDTH / 2;
-int  player_score = 0;
-int  player_lifes = INIT_PLAYER_LIFES;
-int  bonus_pos    = -1;
 char key          = 0;
 
 void destroyBonus(int &bonus_pos) {
@@ -44,30 +18,6 @@ void destroyPlayer() {
 	player_pos = LEVEL_WIDTH / 2;
 	player_lifes--;	
 	Sleep(400);
-}
-
-void generateEnemy() {		
-	int roll = rand() % 100 + 1;
-	if (roll <= ENEMY_CHANCE) {
-		int s = rand() % 2;
-		int enemy_pos = -1;
-		if (s == 0) {
-			enemy_pos = 0;
-		}
-		else {
-			enemy_pos = LEVEL_WIDTH - 1;
-		}
-		enemy_positions.push_back(enemy_pos);
-	}	
-}
-
-void generateBonus(int &bonus_pos) {
-	if (bonus_pos == -1) {
-		int roll = rand() % 100 + 1;
-		if (roll <= BONUS_CHANCE) {
-			bonus_pos = rand() % LEVEL_WIDTH;			
-		}
-	}
 }
 
 void enemyUpdate(int &enemy_pos, int player_pos) {
