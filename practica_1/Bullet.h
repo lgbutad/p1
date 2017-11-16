@@ -4,7 +4,6 @@
 class CBullet {
 public:
 	CBullet(int pos_x, Direction direction);
-	~CBullet();
 	void Update();
 	void Print() const;
 	int  GetPosX() const;

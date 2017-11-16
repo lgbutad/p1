@@ -151,9 +151,11 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Rain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bonus.cpp" />
@@ -168,6 +170,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Rain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="practica_1.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

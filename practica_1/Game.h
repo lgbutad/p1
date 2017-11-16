@@ -10,24 +10,26 @@ class CBullet;
 
 class CGame {
 public:
-	CGame(CPlayer* player);
+	CGame();
 	~CGame();
-	void ProcessInput();
-	void GenerateEnemy();
-	void GenerateBonus();
-	void Update();
-	void UpdateBullets();
-	void UpdateEnemies();
-	void CheckBulletEnemyCollision();
-	void CheckPlayerEnemyCollision();
-	void CheckPlayerBonusCollision();
-	void ClearEnemies();
-	void ClearBullets();
-	void ClearBonus();
-	void RestartLevel();
-	void Print();
-	void PrintFloor();
-	char GetKey() const;
+	void     ProcessInput();
+	void     GenerateEnemy();
+	void     GenerateBonus();
+	void     GenerateRain();
+	void     Update();
+	void     UpdateBullets();
+	void     UpdateEnemies();
+	void     CheckBulletEnemyCollision();
+	void     CheckPlayerEnemyCollision();
+	void     CheckPlayerBonusCollision();
+	void     ClearEnemies();
+	void     ClearBullets();
+	void     ClearBonus();
+	void     RestartLevel();
+	void     Print();
+	void     PrintFloor();
+	int      GetKey() const;
+	CPlayer* GetPlayer() const;
 
 private:
 	CPlayer*            m_player;

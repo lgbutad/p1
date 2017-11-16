@@ -12,9 +12,6 @@ CBullet::CBullet(int pos_x, Direction direction) {
 		m_symbol = SYMBOL_BULLET_LEFT;	
 }
 
-CBullet::~CBullet() {
-}
-
 void CBullet::Update() {
 	if (m_direction == RIGHT) {		
 		m_pos_x++;		

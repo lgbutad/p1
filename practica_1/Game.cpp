@@ -7,34 +7,51 @@
 #include "Enemy.h"
 #include "Bullet.h"
 
-CGame::CGame(CPlayer* player) {
-	m_player = player;	
+CGame::CGame() {
+	m_player = new CPlayer;	 
+	m_bonus = nullptr;	
+}
+
+CGame::~CGame() {
+	for (auto it = m_bullets.begin(); it != m_bullets.end(); it++) {
+		delete *it;
+		*it = nullptr;
+	}
+
+	for (auto it = m_enemies.begin(); it != m_enemies.end(); it++) {
+		delete *it;
+		*it = nullptr;
+	}
+
+	delete m_player;
+	m_player = nullptr;
+
+	delete m_bonus;
 	m_bonus = nullptr;
 }
 
-CGame::~CGame() { // TODO: Free memory.
-	
-}
-
 void CGame::ProcessInput() {
-	if (_kbhit()) {	// TODO: Allow uppercase controls.
+	if (_kbhit()) {
 
 		switch (m_key = _getch()) {
-		case KEY_LEFT: {
+		case KEY_LEFT_1: 
+		case KEY_LEFT_2: {
 			m_player->SetDirection(LEFT);
 			break;
 		}			
-		case KEY_RIGHT: {
+		case KEY_RIGHT_1:
+		case KEY_RIGHT_2: {
 			m_player->SetDirection(RIGHT);
 			break;
 		}			
-		case KEY_SHOOT_LEFT:
-		{
+		case KEY_SHOOT_LEFT_1:
+		case KEY_SHOOT_LEFT_2: {
 			CBullet* bullet = m_player->Shoot(m_player->GetPosX(), LEFT);
 			m_bullets.push_back(bullet);
 			break;
 		}			
-		case KEY_SHOOT_RIGHT: {
+		case KEY_SHOOT_RIGHT_1: 
+		case KEY_SHOOT_RIGHT_2: {
 			CBullet* bullet = m_player->Shoot(m_player->GetPosX(), RIGHT);
 			m_bullets.push_back(bullet);
 			break;
@@ -68,6 +85,13 @@ void CGame::GenerateEnemy() {
 		CEnemy* enemy = new CEnemy(pos_x, direction);
 		m_enemies.push_back(enemy);
 	}	
+}
+
+void CGame::GenerateRain() {
+	
+	int pos_x = 0;
+	int roll = rand() % LEVEL_WIDTH;	
+	
 }
 
 void CGame::UpdateBullets() {
@@ -179,8 +203,10 @@ void CGame::RestartLevel() {
 }
 
 void CGame::Update() {
+	// Check collisions before and after updating player and bullets to prevent 'tunnel effect'.
 	CheckBulletEnemyCollision();
-	CheckPlayerEnemyCollision();	
+	CheckPlayerEnemyCollision();
+
 	m_player->Update();
 	UpdateBullets();	
 	CheckBulletEnemyCollision();
@@ -227,6 +253,10 @@ void CGame::PrintFloor() {
 	printf("%c", SYMBOL_FLOOR);
 }
 
-char CGame::GetKey() const {
+int CGame::GetKey() const {
 	return m_key;
+}
+
+CPlayer* CGame::GetPlayer() const {
+	return m_player;
 }
