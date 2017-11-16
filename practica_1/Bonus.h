@@ -3,11 +3,13 @@
 
 class CBonus {
 public:
-	CBonus();
-	int GetPosX() const;
+	CBonus(int pos_x);
+	void Print() const;
+	int  GetPosX() const;	
 
 private:
-	int m_pos_x;
+	int  m_pos_x;
+	char m_symbol;
 
 };
 

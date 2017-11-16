@@ -5,13 +5,15 @@ class CBullet {
 public:
 	CBullet(int pos_x, Direction direction);
 	~CBullet();
-	void Move();
+	void Update();
 	void Print() const;
-	int GetPosX() const;
+	int  GetPosX() const;
+	bool CheckValidPosition() const;
 private:
-	int       m_pos_x;
-	Direction m_direction;
+	int       m_pos_x;	
 	char      m_symbol;
+	Direction m_direction;
+
 };
 
 #endif

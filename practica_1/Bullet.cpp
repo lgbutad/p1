@@ -15,18 +15,12 @@ CBullet::CBullet(int pos_x, Direction direction) {
 CBullet::~CBullet() {
 }
 
-void CBullet::Move() {
-	switch (m_direction) {
-	case RIGHT:
-		if (m_pos_x < LEVEL_WIDTH - 1) {
-			m_pos_x++;
-			break;
-		}
-	case LEFT:
-		if (m_pos_x >= 0) {
-			m_pos_x--;
-			break;
-		}
+void CBullet::Update() {
+	if (m_direction == RIGHT) {		
+		m_pos_x++;		
+	}
+	else if (m_direction == LEFT) {
+		m_pos_x--;
 	}
 }
 
@@ -36,4 +30,10 @@ void CBullet::Print() const {
 
 int CBullet::GetPosX() const {
 	return m_pos_x;
+}
+
+bool CBullet::CheckValidPosition() const {
+	if (m_pos_x < 0 || m_pos_x > LEVEL_WIDTH - 1) 
+		return false;
+	return true;	
 }

@@ -3,13 +3,16 @@
 
 class CEnemy {
 public:
-	CEnemy();
+	CEnemy(int pos_x, Direction direction);
+	void Update();
 	void Print() const;
-	int GetPosX() const;
+	int  GetPosX() const;
+	bool CheckValidPosition() const;
 
 private:
-	int  m_pos_x;
-	char m_symbol;
+	int       m_pos_x;	
+	char      m_symbol;
+	Direction m_direction;
 
 };
 
