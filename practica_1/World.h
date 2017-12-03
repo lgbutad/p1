@@ -2,16 +2,17 @@
 #define _GAME_H_
 
 #include <list>
+#include <vector>
 
 class CPlayer;
 class CBonus;
 class CEnemy;
 class CBullet;
 
-class CGame {
+class CWorld {
 public:
-	CGame();
-	~CGame();
+	CWorld();
+	~CWorld();
 	void     ProcessInput();
 	void     GenerateEnemy();
 	void     GenerateBonus();
@@ -31,7 +32,7 @@ public:
 	int      GetKey() const;
 	CPlayer* GetPlayer() const;
 
-private:
+private:	
 	CPlayer*            m_player;
 	CBonus*             m_bonus;
 	std::list<CEnemy*>  m_enemies;

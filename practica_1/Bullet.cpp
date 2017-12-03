@@ -29,6 +29,10 @@ int CBullet::GetPosX() const {
 	return m_pos_x;
 }
 
+int CBullet::GetSymbol() const {
+	return m_symbol;
+}
+
 bool CBullet::CheckValidPosition() const {
 	if (m_pos_x < 0 || m_pos_x > LEVEL_WIDTH - 1) 
 		return false;

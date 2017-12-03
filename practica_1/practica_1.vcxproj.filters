@@ -39,13 +39,13 @@
     <ClInclude Include="Bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rain.h">
+    <ClInclude Include="Weather.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,16 +68,11 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="Weather.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rain.cpp">
+    <ClCompile Include="World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="practica_1.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>

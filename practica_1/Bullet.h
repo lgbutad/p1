@@ -7,6 +7,7 @@ public:
 	void Update();
 	void Print() const;
 	int  GetPosX() const;
+	int  GetSymbol() const;
 	bool CheckValidPosition() const;
 private:
 	int       m_pos_x;	

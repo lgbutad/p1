@@ -3,16 +3,6 @@
 
 #include <list>
 
-class CWeather
-{
-public:
-	CWeather();
-	void Update();
-private:
-	const static char s_rain_types[2];
-	std::list<CDrop> m_drops;	
-};
-
 class CDrop
 {
 public:
@@ -22,6 +12,16 @@ public:
 private:
 	int m_status;
 	int m_pos_x;
+};
+
+class CWeather
+{
+public:
+	CWeather();
+	void Update();
+private:
+	const static char s_rain_types[2];
+	std::list<CDrop> m_drops;	
 };
 
 #endif

@@ -1,18 +1,18 @@
 #include "stdafx.h"
 #include "conio.h"
 #include "constants.h"
-#include "Game.h"
+#include "World.h"
 #include "Player.h"
 #include "Bonus.h"
 #include "Enemy.h"
 #include "Bullet.h"
 
-CGame::CGame() {
+CWorld::CWorld() {
 	m_player = new CPlayer;	 
-	m_bonus = nullptr;	
+	m_bonus = nullptr;
 }
 
-CGame::~CGame() {
+CWorld::~CWorld() {
 	for (auto it = m_bullets.begin(); it != m_bullets.end(); it++) {
 		delete *it;
 		*it = nullptr;
@@ -30,9 +30,8 @@ CGame::~CGame() {
 	m_bonus = nullptr;
 }
 
-void CGame::ProcessInput() {
+void CWorld::ProcessInput() {
 	if (_kbhit()) {
-
 		switch (m_key = _getch()) {
 		case KEY_LEFT_1: 
 		case KEY_LEFT_2: {
@@ -62,13 +61,13 @@ void CGame::ProcessInput() {
 	}	
 }
 
-void CGame::GenerateBonus() {
+void CWorld::GenerateBonus() {
 	if (m_bonus == nullptr) {
 		m_bonus = new CBonus(rand() % LEVEL_WIDTH);		
 	}
 }
 
-void CGame::GenerateEnemy() {
+void CWorld::GenerateEnemy() {
 	int pos_x = 0;
 	Direction direction = NONE;
 	int roll = rand() % 100 + 1;
@@ -87,14 +86,12 @@ void CGame::GenerateEnemy() {
 	}	
 }
 
-void CGame::GenerateRain() {
-	
+void CWorld::GenerateRain() {	
 	int pos_x = 0;
 	int roll = rand() % LEVEL_WIDTH;	
-	
 }
 
-void CGame::UpdateBullets() {
+void CWorld::UpdateBullets() {
 	for (auto it = m_bullets.begin(); it != m_bullets.end();) {		
 		(*it)->Update();
 
@@ -109,7 +106,7 @@ void CGame::UpdateBullets() {
 	}
 }
 
-void CGame::UpdateEnemies() {
+void CWorld::UpdateEnemies() {
 	for (auto it = m_enemies.begin(); it != m_enemies.end();) {
 		(*it)->Update();
 
@@ -124,7 +121,7 @@ void CGame::UpdateEnemies() {
 	}
 }
 
-void CGame::CheckBulletEnemyCollision() {
+void CWorld::CheckBulletEnemyCollision() {
 	for (auto it_b = m_bullets.begin(); it_b != m_bullets.end();) {
 		bool destroy_bullet = false;
 		for (auto it_e = m_enemies.begin(); it_e != m_enemies.end();) {
@@ -149,7 +146,7 @@ void CGame::CheckBulletEnemyCollision() {
 	}
 }
 
-void CGame::CheckPlayerEnemyCollision() {
+void CWorld::CheckPlayerEnemyCollision() {
 	for (auto it = m_enemies.begin(); it != m_enemies.end();) {
 		if (m_player->GetPosX() == (*it)->GetPosX()) {			
 			delete *it;
@@ -164,7 +161,7 @@ void CGame::CheckPlayerEnemyCollision() {
 	}
 }
 
-void CGame::CheckPlayerBonusCollision() {
+void CWorld::CheckPlayerBonusCollision() {
 	if (m_bonus != nullptr) {
 		if (m_player->GetPosX() == m_bonus->GetPosX()) {
 			delete m_bonus;
@@ -174,7 +171,7 @@ void CGame::CheckPlayerBonusCollision() {
 	}
 }
 
-void CGame::ClearEnemies() {
+void CWorld::ClearEnemies() {
 	for (auto it = m_enemies.begin(); it != m_enemies.end();) {
 		delete *it;
 		*it = nullptr;
@@ -182,7 +179,7 @@ void CGame::ClearEnemies() {
 	}
 }
 
-void CGame::ClearBullets() {
+void CWorld::ClearBullets() {
 	for (auto it = m_bullets.begin(); it != m_bullets.end();) {
 		delete *it;
 		*it = nullptr;
@@ -190,19 +187,19 @@ void CGame::ClearBullets() {
 	}
 }
 
-void CGame::ClearBonus() {
+void CWorld::ClearBonus() {
 	delete m_bonus;
 	m_bonus = nullptr;
 }
 
-void CGame::RestartLevel() {
+void CWorld::RestartLevel() {
 	m_player->Kill();	
 	ClearEnemies();
 	ClearBullets();
 	ClearBonus();
 }
 
-void CGame::Update() {
+void CWorld::Update() {
 	// Check collisions before and after updating player and bullets to prevent 'tunnel effect'.
 	CheckBulletEnemyCollision();
 	CheckPlayerEnemyCollision();
@@ -217,46 +214,36 @@ void CGame::Update() {
 	UpdateEnemies();
 }
 
-void CGame::Print() {
-	for (int i = 0; i < LEVEL_WIDTH; ++i) {
-		if (i == m_player->GetPosX()) {
-			m_player->Print();
-		}
-		else if (i == m_bonus->GetPosX()) {
-			m_bonus->Print();
-		}
-		else {
-			bool print = false;
-			for (auto it = m_bullets.begin(); it != m_bullets.end(); ++it) {
-				if (i == (*it)->GetPosX()) {
-					(*it)->Print();
-					print = true;
-				}
-			}
-			for (auto it = m_enemies.begin(); it != m_enemies.end(); ++it) {
-				if (i == (*it)->GetPosX() && !print) {
-					(*it)->Print();					
-					print = true;
-				}
-			}
-			if (!print) {
-				PrintFloor();				
-			}
-		}
+void CWorld::Print() {
+	std::vector<char> level(LEVEL_WIDTH, SYMBOL_FLOOR);
+
+	level[m_player->GetPosX()] = SYMBOL_PLAYER;
+	level[m_bonus->GetPosX()]  = SYMBOL_BONUS;
+
+	for (auto it = m_bullets.begin(); it != m_bullets.end(); ++it) {
+		level[(*it)->GetPosX()] = (*it)->GetSymbol();
+	}
+
+	for (auto it = m_enemies.begin(); it != m_enemies.end(); ++it) {
+		level[(*it)->GetPosX()] = SYMBOL_ENEMY;
+	}
+
+	for (auto it = level.begin(); it != level.end(); ++it) {
+		printf("%c", (*it));
 	}
 
 	printf("\t%s%d\t%s%d", "SCORE: ", m_score, "LIVES: ", m_player->GetLifes());
 	printf("\r");
 }
 
-void CGame::PrintFloor() {
+void CWorld::PrintFloor() {
 	printf("%c", SYMBOL_FLOOR);
 }
 
-int CGame::GetKey() const {
+int CWorld::GetKey() const {
 	return m_key;
 }
 
-CPlayer* CGame::GetPlayer() const {
+CPlayer* CWorld::GetPlayer() const {
 	return m_player;
 }
