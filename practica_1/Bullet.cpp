@@ -1,9 +1,10 @@
 #include "stdafx.h"
+
 #include "constants.h"
 #include "Bullet.h"
 
-CBullet::CBullet(int pos_x, Direction direction) {
-	m_pos_x     = pos_x;
+CBullet::CBullet(int pos, Direction direction) {
+	m_pos       = pos;
 	m_direction = direction;
 
 	if (direction == RIGHT)
@@ -14,10 +15,10 @@ CBullet::CBullet(int pos_x, Direction direction) {
 
 void CBullet::Update() {
 	if (m_direction == RIGHT) {		
-		m_pos_x++;		
+		m_pos++;		
 	}
 	else if (m_direction == LEFT) {
-		m_pos_x--;
+		m_pos--;
 	}
 }
 
@@ -25,16 +26,10 @@ void CBullet::Print() const {
 	printf("%c", m_symbol);
 }
 
-int CBullet::GetPosX() const {
-	return m_pos_x;
+int CBullet::GetPos() const {
+	return m_pos;
 }
 
 int CBullet::GetSymbol() const {
 	return m_symbol;
-}
-
-bool CBullet::CheckValidPosition() const {
-	if (m_pos_x < 0 || m_pos_x > LEVEL_WIDTH - 1) 
-		return false;
-	return true;	
 }

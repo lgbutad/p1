@@ -1,9 +1,10 @@
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef _WORLD_H_
+#define _WORLD_H_
 
 #include <list>
 #include <vector>
 
+class CWeather;
 class CPlayer;
 class CBonus;
 class CEnemy;
@@ -13,13 +14,14 @@ class CWorld {
 public:
 	CWorld();
 	~CWorld();
+
 	void     ProcessInput();
 	void     GenerateEnemy();
 	void     GenerateBonus();
-	void     GenerateRain();
 	void     Update();
 	void     UpdateBullets();
 	void     UpdateEnemies();
+	void     UpdateWeather();
 	void     CheckBulletEnemyCollision();
 	void     CheckPlayerEnemyCollision();
 	void     CheckPlayerBonusCollision();
@@ -28,19 +30,20 @@ public:
 	void     ClearBonus();
 	void     RestartLevel();
 	void     Print();
-	void     PrintFloor();
-	int      GetKey() const;
-	CPlayer* GetPlayer() const;
+	int      GetKey() const;	
+	bool     CWorld::CheckValidPosition(int pos) const;
+	int      GetLives() const;
 
-private:	
-	CPlayer*            m_player;
-	CBonus*             m_bonus;
-	std::list<CEnemy*>  m_enemies;
+private:
+	CWeather*           m_weather;	
+	int                 m_player_pos;
+	int                 m_bonus_pos;	
+	std::list<int>      m_enemies_pos;
 	std::list<CBullet*> m_bullets;
 	int                 m_score;
+	int                 m_lives;
 	char                m_key;
 
 };
 
 #endif
-

@@ -3,18 +3,18 @@
 
 class CBullet {
 public:
-	CBullet(int pos_x, Direction direction);
+	CBullet(int pos, Direction direction);
+
 	void Update();
 	void Print() const;
-	int  GetPosX() const;
+	int  GetPos() const;
 	int  GetSymbol() const;
-	bool CheckValidPosition() const;
+
 private:
-	int       m_pos_x;	
+	int       m_pos;	
 	char      m_symbol;
 	Direction m_direction;
 
 };
 
 #endif
-

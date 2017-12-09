@@ -1,17 +1,25 @@
 #include "stdafx.h"
+
+#include <algorithm>
+
 #include "constants.h"
+#include "Drop.h"
 #include "Weather.h"
 
-CWeather::CWeather()
-{
+CWeather::~CWeather() {
+	for (auto it = m_drops.begin(); it != m_drops.end(); it++) {
+		delete *it;
+		*it = nullptr;
+	}
 }
 
 void CWeather::Update() {	
 	// Update existing drops.
-	int n_drops = m_drops.size();
+	int s_drop_status_size = sizeof(CDrop::s_drop_status) / sizeof(CDrop::s_drop_status[0]);
+
 	for (auto it = m_drops.begin(); it != m_drops.end();) {
-		if (it->GetStatus() < n_drops + 1) {
-			it->NextStatus();
+		if ((*it)->GetStatus() < s_drop_status_size - 1) {
+			(*it)->NextStatus();
 			it++;
 		}
 		else {
@@ -19,21 +27,25 @@ void CWeather::Update() {
 		}
 	}
 
-	// TODO: Add new drops.
-	int max_new_drops = LEVEL_WIDTH;
-	int n_new_drops = rand() % max_new_drops;
+	// Add new drops.
+	int max_new_drops = LEVEL_WIDTH / MAX_DROPS_RATIO;
+	int n_new_drops = rand() % max_new_drops + 1;
 
 	for (int i = 0; i < n_new_drops; i++) {
-		
+		int pos = rand() % LEVEL_WIDTH;
+		bool add_new = true;
+		for (auto it = m_drops.begin(); it != m_drops.end(); ++it) {
+			if ((*it)->GetPos() == pos) {
+				add_new = false;
+				break;
+			}							
+		}
+		if (add_new) {
+			m_drops.push_back(new CDrop(pos));
+		}		
 	}
 }
 
-int CDrop::GetStatus() const {
-	return m_status;
+const std::vector<CDrop*>& CWeather::GetDrops() const {
+	return m_drops;
 }
-
-void CDrop::NextStatus() {
-	m_status++;
-}
-
-const char CWeather::s_rain_types[] = { SYMBOL_RAIN_1, SYMBOL_RAIN_2 };

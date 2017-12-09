@@ -4,7 +4,8 @@
 #define LEVEL_WIDTH         30
 #define ENEMY_CHANCE        10
 #define BONUS_SCORE         100
-#define PLAYER_LIFES        3
+#define PLAYER_LIVES        3
+#define MAX_DROPS_RATIO     10
 
 #define SYMBOL_FLOOR        '_'
 #define SYMBOL_PLAYER       '@'

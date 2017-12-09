@@ -1,25 +1,20 @@
 #include "stdafx.h"
-#include "constants.h"
 #include "windows.h"
+
 #include <list>
-#include "Player.h"
+
+#include "constants.h"
 #include "World.h"
-
-// TODO: It's not necessary to have Bullet, Player, Enemy and Bonus classes.
-// We can have the positions stored directly in Game (or World) class.
-// We need only World and Meteo classes.
-
-// TODO: Finish Weather.
 
 int main() {
 	printf("\n\n\n");
 	
-	CWorld game;
-
-	while (game.GetKey() != KEY_ESC && game.GetPlayer()->GetLifes() > 0) { 
-		game.ProcessInput();
-		game.Update();
-		game.Print();		
+	CWorld world;
+	
+	while (world.GetKey() != KEY_ESC && world.GetLives() > 0) {
+		world.ProcessInput();
+		world.Update();
+		world.Print();
 		Sleep(200);		
 	}
 
